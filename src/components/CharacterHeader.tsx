@@ -1,6 +1,6 @@
 'use client';
 
-import { UserStats } from '@/lib/game-engine';
+import { UserStats } from '../lib/game-engine';
 
 interface Props {
   user: UserStats;
@@ -16,7 +16,7 @@ export function CharacterHeader({ user }: Props) {
         <div>
           <h1 className="text-2xl font-bold">Adventurer</h1>
           <span className="text-sm font-semibold bg-indigo-600 px-3 py-1 rounded-full text-indigo-100">
-            Level {user.Level}
+            Level {user.level}
           </span>
         </div>
         <div className="text-amber-400 font-bold text-lg flex items-center gap-1">

@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { UserStats } from '@/lib/game-engine';
+import { UserStats } from './lib/game-engine';
 
 interface GameState {
   user: UserStats | null;
