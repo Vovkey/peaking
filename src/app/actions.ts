@@ -1,7 +1,7 @@
 'use server';
 
-import { prisma } from '@/lib/prisma';
-import { completeAction, failHabit, purchaseReward, Difficulty } from '@/lib/game-engine';
+import { prisma } from '../lib/prisma';
+import { completeAction, failHabit, purchaseReward, Difficulty } from '../lib/game-engine';
 import { revalidatePath } from 'next/cache';
 
 

@@ -25,7 +25,7 @@ model User {
  currentXp  Int      @default(0)
  maxXp      Int      @default(100)
  hp         Int      @default(100)
- maxHp       Int      @default(100)
+ maxHp      Int      @default(100)
  gold       Int      @default(0)
 
  habits  Habit[]

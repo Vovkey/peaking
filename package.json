@@ -10,21 +10,24 @@
     "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
-    "@prisma/adapter-pg": "^7.0.0",
+    "@prisma/adapter-pg": "^7.10.1",
     "@prisma/client": "^7.0.0",
     "next": "^15.0.0",
-    "pg": "^8.11.0",
+    "pg": "^8.23.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zustand": "^5.1.0"
   },
   "devDependencies": {
+    "@prisma/config": "^7.0.0",
+    "@tailwindcss/postcss": "^4.3.5",
     "@types/node": "^20.0.0",
-    "@types/pg": "^8.11.0",
+    "@types/pg": "^8.23.1",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "@prisma/config": "^7.0.0",
+    "postcss": "^8.5.33",
     "prisma": "^7.0.0",
-    "typescript": "^5.0.0",
-    "tsx": "^4.0.0"
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
   }
 }
