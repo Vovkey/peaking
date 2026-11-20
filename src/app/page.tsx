@@ -1,4 +1,14 @@
-import { getUser, completeTaskAction, triggerHabitAction, failHabitAction, buyRewardAction } from './actions';
+import {
+  getUser,
+  completeTaskAction,
+  triggerHabitAction,
+  failHabitAction,
+  buyRewardAction,
+  createHabitAction,
+  createTaskAction,
+  createRewardAction
+} from './actions';
+import { SectionHeader } from '../components/SectionHeader';
 import { CharacterHeader } from '../components/CharacterHeader';
 
 export default async function DashboardPage() {
@@ -14,10 +24,12 @@ export default async function DashboardPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <section className="bg-slate-900 border border-slate-800 p-4 rounded-lg">
-          <h2 className="text-lg font-semibold text-slate-200 mb-3">
-            <span>Habits</span>
-            <span className="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded">Daily</span>
-          </h2>
+          <SectionHeader
+            title="Habits"
+            badge="Daily"
+            type="habit"
+            action={createHabitAction}
+          />
           <div className="space-y-2 text-sm text-slate-400">
             {user.habits.map((habit) => (
               <div key={habit.id} className="p-3 bg-slate-800/80 rounded flex justify-between items-center">
@@ -45,10 +57,12 @@ export default async function DashboardPage() {
         </section>
 
         <section className="bg-slate-900 border border-slate-800 p-4 rounded-lg">
-          <h2 className="text-lg font-semibold text-slate-200 mb-3">
-            <span>To-Dos</span>
-            <span className="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded">One-Off</span>
-          </h2>
+          <SectionHeader
+            title="To-Dos"
+            badge="One-off"
+            type="task"
+            action={createTaskAction}
+          />
           <div className="space-y-3">
             {user.tasks.map((task) => (
               <div key={task.id} className="p-3 bg-slate-800/80 rounded-lg border border-slate-700/50 flex justify-between items-center">
@@ -73,10 +87,12 @@ export default async function DashboardPage() {
         </section>
 
         <section className="bg-slate-900 border border-slate-800 p-5 rounded-xl shadow-lg">
-          <h2 className="text-xl font-bold text-slate-100 mb-4 flex items-center justify-between">
-            <span>Shop</span>
-            <span className="text-xs bg-slate-800 text-slate-400 px-2 py-1 rounded">Rewards</span>
-          </h2>
+          <SectionHeader
+            title="Shop"
+            badge="Rewards"
+            type="reward"
+            action={createRewardAction}
+          />
           <div className="space-y-3">
             {user.rewards.map((reward) => (
               <div key={reward.id} className="p-3 bg-slate-800/80 rounded-lg border border-slate-700/50 flex justify-between items-center">

@@ -89,3 +89,60 @@ export async function buyRewardAction(rewardCost: number) {
   revalidatePath('/');
   return { success: true };
 }
+
+export async function createHabitAction(formData: FormData) {
+  const user = await prisma.user.findFirst();
+  if (!user) return;
+
+  const title = formData.get('title') as string;
+  const difficulty = (formData.get('difficulty') as Difficulty) || 'EASY';
+
+  await prisma.habit.create({
+    data: {
+      userId: user.id,
+      title,
+      difficulty,
+      streak: 0,
+    },
+  });
+
+  revalidatePath('/');
+}
+
+
+export async function createTaskAction(formData: FormData) {
+  const user = await prisma.user.findFirst();
+  if (!user) return;
+
+  const title = formData.get('title') as string;
+  const difficulty = (formData.get('difficulty') as Difficulty) || 'EASY';
+
+  await prisma.task.create({
+    data: {
+      userId: user.id,
+      title,
+      difficulty,
+      isCompleted: false,
+    },
+  });
+
+  revalidatePath('/');
+}
+
+export async function createRewardAction(formData: FormData) {
+  const user = await prisma.user.findFirst();
+  if (!user) return;
+
+  const title = formData.get('title') as string;
+  const cost = parseInt(formData.get('cost') as string, 10) || 10;
+
+  await prisma.reward.create({
+    data: {
+      userId: user.id,
+      title,
+      cost,
+    },
+  });
+
+  revalidatePath('/');
+}
