@@ -4,6 +4,7 @@ interface Purchase {
   id: string;
   title: string;
   cost: number;
+  isRedeemed: boolean;
   createdAt: Date;
 }
 
@@ -11,9 +12,10 @@ interface InventoryModalProps {
   isOpen: boolean;
   onClose: () => void;
   purchases: Purchase[];
+  toggleRedeemedAction: (id: string, isRedeemed: boolean) => Promise<void>;
 }
 
-export function InventoryModal({ isOpen, onClose, purchases }: InventoryModalProps) {
+export function InventoryModal({ isOpen, onClose, purchases, toggleRedeemedAction, }: InventoryModalProps) {
   if (!isOpen) return null;
 
   return (
@@ -39,22 +41,45 @@ export function InventoryModal({ isOpen, onClose, purchases }: InventoryModalPro
             purchases.map((item) => (
               <div
                 key={item.id}
-                className="p-3 bg-slate-800/60 rounded-lg border border-slate-700/50 flex justify-between items-center"
+                className={`p-3 rounded-lg border flex items-center justify-between transition ${item.isRedeemed
+                    ? 'bg-slate-900/40 border-slate-800/80 opacity-60'
+                    : 'bg-slate-800/60 border-slate-700/50'
+                  }`}
               >
-                <div>
-                  <div className="font-medium text-slate-200 text-sm">{item.title}</div>
-                  <div className="text-[10px] text-slate-400">
-                    {new Date(item.createdAt).toLocaleDateString()} at{' '}
-                    {new Date(item.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                <div className="flex items-center gap-3">
+                  <form action={toggleRedeemedAction.bind(null, item.id, item.isRedeemed)}>
+                    <input
+                      type="checkbox"
+                      checked={item.isRedeemed}
+                      onChange={(e) => e.target.form?.requestSubmit()}
+                      className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-amber-500 focus:ring-amber-500 cursor-pointer accent-amber-500"
+                    />
+                  </form>
+
+                  <div>
+                    <div
+                      className={`font-medium text-sm ${item.isRedeemed ? 'linethrough text-slate-400' : 'text-slate-200'
+                        }`}
+                    >
+                      {item.title}
+                    </div>
+                    <div className="text-[10px] text-slate-500">
+                      {new Date(item.createdAt).toLocaleDateString()} at{' '}
+                      {new Date(item.createdAt).toLocaleTimeString([], {
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </div>
                   </div>
                 </div>
-                <span className="text-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounde border border-amber-400/20">
-                  {item.cost} Gold
+
+                <span className="tet-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/20">
+                  {item.cost}g
                 </span>
               </div>
             ))
           )}
-        </div>
+          </div>
 
         <div className="mt-4 pt-3 border-t border-slate-800 flex justify-end">
           <button

@@ -190,3 +190,20 @@ function extractUserScalarData(user: any) {
   const { habits, tasks, rewards, ...scalarData } = user;
   return scalarData;
 }
+
+export async function togglePurchaseRedeemedAction(purchaseId: string, currentStatus: boolean) {
+  const user = await getUser();
+  if (!user) return;
+
+  await prisma.purchase.update({
+    where: {
+      id: purchaseId,
+      userId: user.id
+    },
+    data: {
+      isRedeemed: !currentStatus,
+    },
+  });
+
+  revalidatePath('/');
+}

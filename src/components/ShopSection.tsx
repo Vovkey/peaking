@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { CreateModal } from './CreateModal';
 import { InventoryModal } from './InventoryModal';
+import { togglePurchaseRedeemedAction } from '../app/actions';
 
 interface ShopSectionProps {
   user: any;
@@ -73,6 +74,7 @@ export function ShopSection({ user, createRewardAction, buyRewardAction }: ShopS
         isOpen={isInventoryOpen}
         onClose={() => setIsInventoryOpen(false)}
         purchases={user.purchases || []}
+        toggleRedeemedAction={togglePurchaseRedeemedAction}
       />
     </section>
   );

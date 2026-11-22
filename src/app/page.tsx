@@ -6,7 +6,8 @@ import {
   buyRewardAction,
   createHabitAction,
   createTaskAction,
-  createRewardAction
+  createRewardAction,
+  togglePurchaseRedeemedAction
 } from './actions';
 import { SectionHeader } from '../components/SectionHeader';
 import { CharacterHeader } from '../components/CharacterHeader';
