@@ -28,9 +28,10 @@ model User {
  maxHp      Int      @default(100)
  gold       Int      @default(0)
 
- habits  Habit[]
- tasks   Task[]
- rewards Reward[]
+ habits      Habit[]
+ tasks       Task[]
+ rewards     Reward[]
+ purchases   Purchase[]
 
  createdAt  DateTime @default(now())
  updatedAt  DateTime @updatedAt
@@ -70,4 +71,13 @@ model Reward {
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
+}
+
+model Purchase {
+  id        String   @id @default(uuid())
+  title     String
+  cost      Int
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
 }

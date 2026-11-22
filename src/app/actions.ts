@@ -11,6 +11,11 @@ export async function getUser() {
       habits: true,
       tasks: true,
       rewards: true,
+      purchases: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
     },
   });
   return user;
@@ -18,14 +23,22 @@ export async function getUser() {
 
 export async function completeTaskAction(taskId: string, difficulty: Difficulty) {
   const user = await getUser();
-  if (!user) throw new Error('User not found');
+  if (!user) return;
 
-  const { updatedStats } = completeAction(user, difficulty);
+  const { updatedStats }  = completeAction(user, difficulty);
+  const { habits, tasks, rewards, ...userData } = updatedStats as any;
 
   await prisma.$transaction([
     prisma.user.update({
       where: { id: user.id },
-      data: updatedStats,
+      data: {
+        level: userData.level,
+        currentXp: userData.currentXp,
+        maxXp: userData.maxXp,
+        hp: userData.hp,
+        maxHp: userData.maxHp,
+        gold: userData.gold,
+      },
     }),
     prisma.task.update({
       where: { id: taskId },
@@ -34,19 +47,26 @@ export async function completeTaskAction(taskId: string, difficulty: Difficulty)
   ]);
 
   revalidatePath('/');
-  return { success: true };
 }
 
 export async function triggerHabitAction(habitId: string, difficulty: Difficulty) {
   const user = await getUser();
-  if (!user) throw new Error('User not found');
+  if (!user) return;
 
   const { updatedStats } = completeAction(user, difficulty);
+  const { habits, tasks, rewards, ...userData } = updatedStats as any;
 
   await prisma.$transaction([
     prisma.user.update({
       where: { id: user.id },
-      data: updatedStats,
+      data: {
+        level: userData.level,
+        currentXp: userData.currentXp,
+        maxXp: userData.maxXp,
+        hp: userData.hp,
+        maxHp: userData.maxHp,
+        gold: userData.gold
+      },
     }),
     prisma.habit.update({
       where: { id: habitId },
@@ -55,39 +75,58 @@ export async function triggerHabitAction(habitId: string, difficulty: Difficulty
   ]);
 
   revalidatePath('/');
-  return { sucess: true };
 }
 
 export async function failHabitAction(habitId: string, difficulty: Difficulty) {
   const user = await getUser();
-  if (!user) throw new Error('User not found');
+  if (!user) return;
 
-  const updatedStats = failHabit(user, difficulty);
+  const userData = failHabit(user, difficulty)
 
   await prisma.$transaction([
     prisma.user.update({
       where: { id: user.id },
-      data: updatedStats,
+      data: {
+        level: userData.level,
+        currentXp: userData.currentXp,
+        maxXp: userData.maxXp,
+        hp: userData.hp,
+        maxHp: userData.maxHp,
+        gold: userData.gold,
+      },
+    }),
+    prisma.habit.update({
+      where: { id: habitId },
+      data: { streak: 0},
     }),
   ]);
 
   revalidatePath('/');
-  return { success: true };
 }
 
 export async function buyRewardAction(rewardCost: number) {
   const user = await getUser();
-  if (!user) throw new Error('User not found');
+  if (!user || user.gold < rewardCost) return;
 
-  const updatedStats = purchaseReward(user, rewardCost);
+  const userData = purchaseReward(user, rewardCost);
 
-  await prisma.user.update({
-    where: { id: user.id },
-    data: updatedStats,
-  });
+  await prisma.$transaction([
+    prisma.user.update({
+      where: { id: user.id },
+      data: {
+        gold: userData.gold,
+      },
+    }),
+    prisma.purchase.create({
+      data: {
+        userId: user.id,
+        title: rewardTitle,
+        cost: rewardCost,
+      },
+    }),
+  ]);
 
   revalidatePath('/');
-  return { success: true };
 }
 
 export async function createHabitAction(formData: FormData) {
@@ -145,4 +184,9 @@ export async function createRewardAction(formData: FormData) {
   });
 
   revalidatePath('/');
+}
+
+function extractUserScalarData(user: any) {
+  const { habits, tasks, rewards, ...scalarData } = user;
+  return scalarData;
 }

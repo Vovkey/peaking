@@ -10,6 +10,7 @@ import {
 } from './actions';
 import { SectionHeader } from '../components/SectionHeader';
 import { CharacterHeader } from '../components/CharacterHeader';
+import { ShopSection } from '../components/ShopSection';
 
 export default async function DashboardPage() {
   const user = await getUser();
@@ -85,33 +86,11 @@ export default async function DashboardPage() {
             ))}
           </div>
         </section>
-
-        <section className="bg-slate-900 border border-slate-800 p-5 rounded-xl shadow-lg">
-          <SectionHeader
-            title="Shop"
-            badge="Rewards"
-            type="reward"
-            action={createRewardAction}
-          />
-          <div className="space-y-3">
-            {user.rewards.map((reward) => (
-              <div key={reward.id} className="p-3 bg-slate-800/80 rounded-lg border border-slate-700/50 flex justify-between items-center">
-                <div>
-                  <div className="font-medium text-slate-200">{reward.title}</div>
-                  <div className="text-xs font-bold text-amber-400">{reward.cost} Gold</div>
-                </div>
-                <form action={buyRewardAction.bind(null, reward.cost)}>
-                  <button
-                    type="submit"
-                    disabled={user.gold < reward.cost}
-                    className="text-xs font-semibold bg-amber-600 hover:bg-amber-500 disabled:bg-slate-700 disabled:text-slate-500 text-white px-3 py-1.5 rounded transition">
-                    Buy
-                    </button>
-                </form>
-              </div>
-            ))}
-          </div>
-        </section>
+        <ShopSection
+          user={user}
+          createRewardAction={createRewardAction}
+          buyRewardAction={buyRewardAction}
+        />
       </div>
     </main>
   );
