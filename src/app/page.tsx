@@ -7,12 +7,14 @@ import {
   createHabitAction,
   createTaskAction,
   createRewardAction,
-  togglePurchaseRedeemedAction
+  togglePurchaseRedeemedAction,
+  resetCharacterAction,
 } from './actions';
 import { ThemeToggle } from '../components/ThemeToggle';
 import { SectionHeader } from '../components/SectionHeader';
 import { CharacterHeader } from '../components/CharacterHeader';
 import { ShopSection } from '../components/ShopSection';
+import { ResetCharacterModal } from '../components/ResetCharacterModal';
 
 export default async function DashboardPage() {
   const user = await getUser();
@@ -27,7 +29,10 @@ export default async function DashboardPage() {
         <h1 className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
           PEAKING
         </h1>
-        <ThemeToggle />
+        <div className="flex items-center gap-2">
+          <ResetCharacterModal resetAction={resetCharacterAction} />
+          <ThemeToggle />
+        </div>
       </div>
 
       <CharacterHeader user={user} />

@@ -207,3 +207,26 @@ export async function togglePurchaseRedeemedAction(purchaseId: string, currentSt
 
   revalidatePath('/');
 }
+
+export async function resetCharacterAction() {
+  const user = await getUser();
+  if (!user) return;
+
+  await prisma.user.update({
+    where: { id: user.id },
+    data: {
+      level: 1,
+      currentXp: 0,
+      gold: 0,
+      hp: 100,
+      maxHp: 100,
+    }
+  });
+
+  await prisma.habit.updateMany({
+    where: { userId: user.id },
+    data: { streak: 0, completedToday: false },
+  });
+
+  revalidatePath('/');
+}
