@@ -104,7 +104,7 @@ export async function failHabitAction(habitId: string, difficulty: Difficulty) {
   revalidatePath('/');
 }
 
-export async function buyRewardAction(rewardCost: number) {
+export async function buyRewardAction(rewardTitle: string, rewardCost: number) {
   const user = await getUser();
   if (!user || user.gold < rewardCost) return;
 
