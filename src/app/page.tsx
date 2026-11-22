@@ -9,6 +9,7 @@ import {
   createRewardAction,
   togglePurchaseRedeemedAction
 } from './actions';
+import { ThemeToggle } from '../components/ThemeToggle';
 import { SectionHeader } from '../components/SectionHeader';
 import { CharacterHeader } from '../components/CharacterHeader';
 import { ShopSection } from '../components/ShopSection';
@@ -17,27 +18,37 @@ export default async function DashboardPage() {
   const user = await getUser();
 
   if (!user) {
-    return <div className="p-8 text-center text-slate-400">Loading user data...</div>;
+    return <div className="p-8 text-center text-slate-500 dark:text-slate-400">Loading user data...</div>;
   }
 
   return (
-    <main className="mx-w-4xl mx-auto p-6">
+    <main className="max-w-5xl mx-auto p-6 space-y-6">
+      <div className="flex justify-between items-center bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl shadow-sm">
+        <h1 className="text-xl font-black text-slate-800 dark:text-slate-100 flex items-center gap-2">
+          PEAKING
+        </h1>
+        <ThemeToggle />
+      </div>
+
       <CharacterHeader user={user} />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <section className="bg-slate-900 border border-slate-800 p-4 rounded-lg">
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-xl shadow-sm">
           <SectionHeader
             title="Habits"
             badge="Daily"
             type="habit"
             action={createHabitAction}
           />
-          <div className="space-y-2 text-sm text-slate-400">
+          <div className="space-y-3 mt-3">
             {user.habits.map((habit) => (
-              <div key={habit.id} className="p-3 bg-slate-800/80 rounded flex justify-between items-center">
+              <div
+                key={habit.id}
+                className="p-3 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 rounded-lg flex justify-between items-center"
+              >
                <div className="flex justify-between items-center">
-                <span className="font-medium text-slate-200">{habit.title}</span>
-                <span className="text-xs font-semibold bg-amber-500/10 text-amber-400 px-2 py-0.5 rounded border border-amber-500/20">
+                <span className="font-medium text-slate-800 dark:text-slate-200">{habit.title}</span>
+                <span className="text-xs font-semibold bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded border border-amber-500/20">
                   Streak : {habit.streak}
                 </span>
               </div>
@@ -49,7 +60,7 @@ export default async function DashboardPage() {
                 </form>
                 <form action={failHabitAction.bind(null, habit.id, habit.difficulty)} className="flex-1">
                     <button type="submit" className="w-full text-xs font-semibold bg-rose-600/80 hover:bg-rose-500 text-white py-1.5 rounded transition">
-                      - Missed
+                      - Miss
                     </button>
                 </form>
               </div>
@@ -58,21 +69,21 @@ export default async function DashboardPage() {
           </div>
         </section>
 
-        <section className="bg-slate-900 border border-slate-800 p-4 rounded-lg">
+        <section className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-4 rounded-lg">
           <SectionHeader
             title="To-Dos"
             badge="One-off"
             type="task"
             action={createTaskAction}
           />
-          <div className="space-y-3">
+          <div className="space-y-3 mt-3">
             {user.tasks.map((task) => (
-              <div key={task.id} className="p-3 bg-slate-800/80 rounded-lg border border-slate-700/50 flex justify-between items-center">
+              <div key={task.id} className="p-3 bg-slate-50 dark:bg-slate-800/80 rounded-lg border border-slate-200 dark:border-slate-700/50 flex justify-between items-center">
                 <div>
-                  <div className={`font-medium ${task.isCompleted ? 'line-through text-slate-500' : 'text-slate-200'}`}>
+                  <div className={`font-medium ${task.isCompleted ? 'line-through text-shadow-amber-400 dark:text-slate-500' : 'text-slate-800 dark:text-slate-200'}`}>
                     {task.title}
                   </div>
-                  <span className="text-[10px] uppercase tracking-wider font-bold text-indigo-400">
+                  <span className="text-[10px] uppercase tracking-wider font-bold text-indigo-600 dark:text-indigo-400">
                     {task.difficulty}
                   </span>
                 </div>

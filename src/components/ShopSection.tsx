@@ -16,23 +16,23 @@ export function ShopSection({ user, createRewardAction, buyRewardAction }: ShopS
   const [isInventoryOpen, setIsInventoryOpen] = useState(false);
 
   return (
-    <section className="bg-slate-900 border border-slate-800 p-5 rounded-xl shadow-lg flex flex-col justify-between">
+    <section className="bg-white dark:bg-slate-900 border dark:border-slate-800 border-slate-200 p-5 rounded-xl shadow-lg flex flex-col justify-between">
       <div>
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <h2 className="text-xl font-bold text-slate-100">Shop</h2>
-            <span className="text-xs bg-slate-800 text-slate-400 px-2 py-0.5 rounded">Rewards</span>
+            <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Shop</h2>
+            <span className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 px-2 py-0.5 rounded">Rewards</span>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsInventoryOpen(true)}
-              className="text-xs font-bold bg-slate-800 hover:bg-slate-700 text-amber-400 px-2.5 py-1 rounded-lg border border-slate-700 transition flex items-center gap-1"
+              className="text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-700 dark:hover:bg-slate-700 text-amber-600 dark:text-amber-400 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 transition flex items-center gap-1"
             >
               History ({user.purchases?.length || 0})
             </button>
             <button
               onClick={() => setIsAddOpen(true)}
-              className="text-xs font-bold bg-slate-800 hover:bg-slate-700 text-indigo-400 px-2.5 py-1 rounded-lg border border-slate-700 transition"
+              className="text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-indigo-600 dark:text-indigo-400 px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-700 transition"
             >
               + Add
             </button>
@@ -43,17 +43,17 @@ export function ShopSection({ user, createRewardAction, buyRewardAction }: ShopS
           {user.rewards.map((reward: any) => (
             <div
               key={reward.id}
-              className="p-3 bg-slate-800/80 rounded-lg border border-slate-700/50 flex justify-between items-center"
+              className="p-3 bg-slate-50 dark:bg-slate-800/80 rounded-lg border border-slate-200 dark:border-slate-700/50 flex justify-between items-center"
             >
               <div>
-                <div className="font-medium text-slate-200">{reward.title}</div>
-                <div className="text-xs font-bold text-amber-400">{reward.cost} Gold</div>
+                <div className="font-medium text-slate-800 dark:text-slate-200">{reward.title}</div>
+                <div className="text-xs font-bold text-amber-600 dark:text-amber-400">{reward.cost} Gold</div>
               </div>
               <form action={buyRewardAction.bind(null, reward.title, reward.cost)}>
                 <button
                   type="submit"
                   disabled={user.gold < reward.cost}
-                  className="text-xs font-font-semibold bg-amber-600 hover:bg-amber-500 disabed:bg-slate-700 disabled:text-slate-500 text-white px-3 py-1.5 rounded transition"
+                  className="text-xs font-semibold bg-amber-600 hover:bg-amber-500 dark:disabled:bg-slate-700 disabled:bg-slate-200 disabled:text-slate-400 dark:disabled:text-slate-500 text-white px-3 py-1.5 rounded transition"
                 >
                   Buy
                 </button>

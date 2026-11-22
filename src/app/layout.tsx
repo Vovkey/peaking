@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import './globals.css';
+import { ThemeProvider } from "../components/ThemeProvider";
 
 export const metadata: Metadata = {
   title: 'Peaking - RPG Habit Tracker',
@@ -12,9 +13,9 @@ export default function RootLayout({
     children: React.ReactNode;
   }) {
   return (
-    <html lang="en">
-      <body className="bg-slate-950 text-slate-100 min-h-screen antialiased">
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 transition-colors">
+        <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
   );

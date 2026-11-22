@@ -20,14 +20,14 @@ export function InventoryModal({ isOpen, onClose, purchases, toggleRedeemedActio
 
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-slate-900 border border-slate-800 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
+      <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl p-6 w-full max-w-md shadow-2xl relative">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-xl font-bold text-slate-100 flex items-center gap-2">
+          <h3 className="text-xl font-bold text-slate-900 dark:text-slate-100 flex items-center gap-2">
             Inventory & History
           </h3>
           <button
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-200 text-sm font-bold"
+            className="text-slate-400 hover:text-slate-200 dark:hover:text-shadow-amber-200 text-sm font-bold"
           >
             ✕
           </button>
@@ -42,8 +42,8 @@ export function InventoryModal({ isOpen, onClose, purchases, toggleRedeemedActio
               <div
                 key={item.id}
                 className={`p-3 rounded-lg border flex items-center justify-between transition ${item.isRedeemed
-                    ? 'bg-slate-900/40 border-slate-800/80 opacity-60'
-                    : 'bg-slate-800/60 border-slate-700/50'
+                    ? 'bg-slate-100 dark:bg-slate-900/40 border-slate-200 dark:border-slate-800/80 opacity-60'
+                    : 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-700/50'
                   }`}
               >
                 <div className="flex items-center gap-3">
@@ -52,13 +52,15 @@ export function InventoryModal({ isOpen, onClose, purchases, toggleRedeemedActio
                       type="checkbox"
                       checked={item.isRedeemed}
                       onChange={(e) => e.target.form?.requestSubmit()}
-                      className="w-4 h-4 rounded border-slate-700 bg-slate-900 text-amber-500 focus:ring-amber-500 cursor-pointer accent-amber-500"
+                      className="w-4 h-4 rounded border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-amber-500 focus:ring-amber-500 cursor-pointer accent-amber-500"
                     />
                   </form>
 
                   <div>
                     <div
-                      className={`font-medium text-sm ${item.isRedeemed ? 'linethrough text-slate-400' : 'text-slate-200'
+                      className={`font-medium text-sm ${item.isRedeemed
+                        ? 'linethrough text-slate-400 dark:text-slate-500'
+                        : 'text-slate-800 dark:text-slate-200'
                         }`}
                     >
                       {item.title}
@@ -73,7 +75,7 @@ export function InventoryModal({ isOpen, onClose, purchases, toggleRedeemedActio
                   </div>
                 </div>
 
-                <span className="tet-xs font-bold text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/20">
+                <span className="tet-xs font-bold text-amber-600 dark:text-amber-400 bg-amber-400/10 px-2.5 py-1 rounded border border-amber-400/20">
                   {item.cost}g
                 </span>
               </div>
@@ -81,10 +83,10 @@ export function InventoryModal({ isOpen, onClose, purchases, toggleRedeemedActio
           )}
           </div>
 
-        <div className="mt-4 pt-3 border-t border-slate-800 flex justify-end">
+        <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800 flex justify-end">
           <button
             onClick={onClose}
-            className="px-4 py-1.5 text-cs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-lg transition"
+            className="px-4 py-1.5 text-cs font-semibold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 rounded-lg transition"
           >
             Close
           </button>
