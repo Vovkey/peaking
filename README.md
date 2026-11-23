@@ -2,7 +2,7 @@
 
 _A rpg habit tracker_
 
-This project was made for hack club terra, which theme this week was ***PEAK***.
+This project was made for hack club terra, which theme this week was ***PEAK***. I think a self-improvement app is perferct for becoming the ***PEAK***est version of yourself. If you have any ideas, dm me on slack @dgmautner. Have fun and become ***PEAK***
 
 peaking is a habit tracker which helps you organize and achive youre daily goals.
 
