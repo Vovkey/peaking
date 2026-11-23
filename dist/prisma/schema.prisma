@@ -1,0 +1,84 @@
+generator client {
+ provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Difficulty {
+ EASY
+ MEDIUM
+ HARD
+}
+
+enum Frequency {
+ DAILY
+ WEEKLY
+}
+
+model User {
+ id         String   @id @default(uuid())
+ email      String   @unique
+ name       String?
+ level      Int      @default(1)
+ currentXp  Int      @default(0)
+ maxXp      Int      @default(100)
+ hp         Int      @default(100)
+ maxHp      Int      @default(100)
+ gold       Int      @default(0)
+
+ habits      Habit[]
+ tasks       Task[]
+ rewards     Reward[]
+ purchases   Purchase[]
+
+ createdAt  DateTime @default(now())
+ updatedAt  DateTime @updatedAt
+
+}
+
+model Habit {
+  id           String      @id @default(uuid())
+  title        String
+  difficulty   Difficulty  @default(EASY)
+  frequency    Frequency   @default(DAILY)
+  streak       Int         @default(0)
+  completedToday Boolean   @default(false)
+  userId       String
+  user         User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+}
+
+model Task {
+  id           String     @id @default(uuid())
+  title        String
+  difficulty   Difficulty @default(EASY)
+  isCompleted  Boolean    @default(false)
+  dueDate      DateTime?
+  userId       String
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+}
+
+model Reward {
+  id         String   @id @default(uuid())
+  title      String
+  cost       Int
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model Purchase {
+  id        String   @id @default(uuid())
+  title     String
+  cost      Int
+  isRedeemed Boolean @default(false)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+}
