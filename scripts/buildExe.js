@@ -44,7 +44,7 @@ async function build() {
 
   const ready =
     fs.existsSync('dist/server.js') && fs.existsSync(path.join('dist/.next', 'BUILD_ID'));
-  console.log(`✅ Built dist/peaking-linux (server.js & BUILD_ID ready: ${ready})`);
+  console.log(` Built dist/peaking-linux (server.js & BUILD_ID ready: ${ready})`);
 }
 
 build().catch((err) => {
